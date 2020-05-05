@@ -1,0 +1,75 @@
+﻿@page "/students"
+@using ServerBlazorEF.Models
+@inject StudentService studentService
+
+<h1>Students</h1>
+
+<p>This component demonstrates managing students data.</p>
+
+@if (students == null) {
+  <p><em>Loading...</em></p>
+} else {
+  <table class='table table-hover'>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>School</th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach (var item in students)
+      {
+        <tr>
+          <td>@item.StudentId</td>
+          <td>@item.FirstName</td>
+          <td>@item.LastName</td>
+          <td>@item.School</td>
+        </tr>
+        }
+    </tbody>
+  </table>
+}
+
+@if (students != null) // Insert form 
+{
+  <input placeholder="First Name" @bind="@firstName" /><br />
+  <input placeholder="Last Name" @bind="@lastName" /><br />
+  <input placeholder="School" @bind="@school" /><br />
+ // <button @onclick="@Insert" class="btn btn-warning">Insert</button>
+}
+
+@functions {
+  List<Student> students;
+    string studentId;
+    string firstName;
+    string lastName;
+    string school;  
+    protected void ClearFields() {
+    studentId = string.Empty;
+    firstName = string.Empty;
+    lastName = string.Empty;
+    school = string.Empty;
+    }
+    protected async Task Insert() {
+
+  Student s = new Student() {
+    StudentId = Guid.NewGuid().ToString(),
+    FirstName = firstName,
+    LastName = lastName,
+    School = school
+  };
+
+  await studentService.InsertStudentAsync(s);
+  ClearFields();
+  await load();
+}
+  protected  async  Task OnInitAsync() {
+    await load();
+  }
+
+  protected async Task load() {
+    students = await studentService.GetStudentsAsync();
+  }
+}

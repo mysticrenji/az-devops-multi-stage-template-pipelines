@@ -1,0 +1,19 @@
+variables:
+-  name: projectName
+   value: WebApplication1
+-  name: vmImage
+   value: ubuntu-latest
+-  name: buildConfiguration
+   value: Release
+-  name: runtime
+   value: linux-x64
+-  name: azureSubscription
+   value: AzureAppService
+-  name: appType
+   value: webAppLinux
+-  name: WebAppName
+   value: blazor-dock
+-  name: RuntimeStack
+   value: DOTNETCORE|LTS
+-  name: ConnectionType
+   value: AzureRM

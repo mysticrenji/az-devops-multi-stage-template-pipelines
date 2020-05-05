@@ -1,0 +1,22 @@
+trigger: 
+-  master
+-  release/*
+
+variables:
+-  template: template-variables.yaml
+
+stages:
+# Build Stage
+-  template: template-build.yaml
+   parameters: 
+     projectName: $(projectName)
+     vmImage: $(vmImage)
+     buildConfiguration: $(buildConfiguration)
+     runtime: $(runtime)
+# Deployment Stage
+-  template: template-deployment.yaml
+   parameters: 
+     projectName: $(projectName)
+     vmImage: $(vmImage) 
+     RuntimeStack: $(RuntimeStack)
+     WebAppName: $(WebAppName)  
